@@ -7,4 +7,4 @@ I experimented with the design and tested the app using Expo Go on my phone.
 
 ## Screenshot
 
-![App Screenshot](./assets/screenshot.png)
+![App Screenshot](./assets/screenshot.jpeng)
