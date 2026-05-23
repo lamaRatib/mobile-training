@@ -7,4 +7,4 @@ I experimented with the design and tested the app using Expo Go on my phone.
 
 ## Screenshot
 
-![App Screenshot](./assets/screenshot.jpeg)
+<img src="./assets/screenshot.jpeg" height="550" />
