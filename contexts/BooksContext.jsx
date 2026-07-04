@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react"
-import { collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc } from "firebase/firestore"
+import { collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc, onSnapshot } from "firebase/firestore"
 import { db } from "../lib/firebase"
 import { useUser } from "../hooks/useUser"
 
@@ -39,7 +39,6 @@ export function BooksProvider({ children }) {
     async function createBook(data) {
         try {
             const docRef = await addDoc(collection(db, "books"), { ...data, userId: user.uid })
-            setBooks(prev => [...prev, { id: docRef.id, ...data, userId: user.uid }])
         } catch (error) {
             console.log(error.message)
         }
@@ -48,15 +47,25 @@ export function BooksProvider({ children }) {
     async function deleteBook(id) {
         try {
             await deleteDoc(doc(db, "books", id))
-            setBooks(prev => prev.filter(book => book.id !== id))
         } catch (error) {
             console.log(error.message)
         }
     }
 
     useEffect(() => {
-        if (user) { fetchBooks() } else { setBooks([]) }
+        let unsubscribe
+        if (user) {
+            const q = query(collection(db, "books"), where("userId", "==", user.uid))
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+                setBooks(list)
+            })
+        } else {
+            setBooks([])
+        }
+        return () => unsubscribe && unsubscribe()
     }, [user])
+
 
     return (
         <BooksContext.Provider value={{ books, fetchBooks, fetchBookById, createBook, deleteBook }}>

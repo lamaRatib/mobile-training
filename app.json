@@ -2,6 +2,7 @@
   "expo": {
     "name": "shelfie",
     "slug": "shelfie",
+    "scheme": "shelfie",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +29,18 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a6bcb676-d2bc-4091-8144-7645f920fe45"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a6bcb676-d2bc-4091-8144-7645f920fe45"
+    }
   }
 }
